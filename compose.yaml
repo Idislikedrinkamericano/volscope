@@ -1,0 +1,17 @@
+services:
+  workstation:
+    build:
+      context: .
+    image: volscope:local
+    ports:
+      - "127.0.0.1:${VOLSCOPE_PORT:-7311}:7311"
+    environment:
+      VOLSCOPE_RISK_FREE_RATE: "${VOLSCOPE_RISK_FREE_RATE:-0.043}"
+      VOLSCOPE_PAPER_ORDER_EXECUTION: "${VOLSCOPE_PAPER_ORDER_EXECUTION:-0}"
+    volumes:
+      - "${VOLSCOPE_DATA_ROOT:-./data}:/data:ro"
+      - volscope-state:/state
+    restart: unless-stopped
+
+volumes:
+  volscope-state:
